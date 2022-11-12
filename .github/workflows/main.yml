@@ -21,7 +21,7 @@ jobs:
       env:
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t rcicdimage:$IMAGE_TAG .
+        docker build -t rcicdimag:$IMAGE_TAG .
         git config --global user.email "jayabharathissy@gmail.com"
         git config --global user.name "Iam-jayabharathi" 
         cd  /home/aximsoft/aximsoft/rbotrunner/actions-runner/_work/replybot-cicd/myrepo
