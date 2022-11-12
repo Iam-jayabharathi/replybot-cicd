@@ -1,1 +1,33 @@
-
+name: Replybot-cicd  
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - name: Build the Docker image
+      uses: actions/checkout@v3
+            
+    - name: Build the Docker image
+      uses: actions/checkout@v1
+      with:
+        repository: iam-jayabharathi/replybot-cicd
+        token: ${{ secrets.GIT_HUB_ACCESS_TOKEN }}
+        path: myrepo
+        ref: dev
+    
+    - name: image tag
+      env:
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t image:$IMAGE_TAG .
+        git config --global user.email "jayabharathissy@gmail.com"
+        git config --global user.name "Iam-jayabharathi" 
+        cd  /home/aximsoft/runner/actions-runner/_work/replybot-cicd/myrepo
+        TAG=$(cat ./views/file.txt | grep tagid: | awk '{print $2}')
+        sed -i "s/$TAG/$IMAGE_TAG/" ./views/file.txt
+        git add ./views/file.txt 
+        git commit -m "Docker image tag updated - $IMAGE_TAG" 
+        docker rm -f rcicdcontainer
+        docker run -itd --name rcicdcontainer -p "3001:3000" image:$IMAGE_TAG
