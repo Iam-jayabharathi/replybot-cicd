@@ -24,10 +24,7 @@ jobs:
         docker build -t rcicdimage:$IMAGE_TAG .
         git config --global user.email "jayabharathissy@gmail.com"
         git config --global user.name "Iam-jayabharathi" 
-        cd  /home/aximsoft/aximsoft/rbotrunner/actions-runner/_work/replybot-cicd/myrepo
-        TAG=$(cat ./views/file.txt | grep tagid: | awk '{print $2}')
-        sed -i "s/$TAG/$IMAGE_TAG/" ./views/file.txt
-        git add ./views/file.txt 
+        git add .
         git commit -m "Docker image tag updated - $IMAGE_TAG" 
         docker rm -f rcicdcontainer
         docker run -itd --name rcicdcontainer -p "3001:3000" image:$IMAGE_TAG
