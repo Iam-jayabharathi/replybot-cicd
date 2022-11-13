@@ -15,7 +15,7 @@ jobs:
         repository: iam-jayabharathi/replybot-cicd
         token: ${{ secrets.GIT_HUB_ACCESS_TOKEN }}
         path: myrepo
-        ref: master
+        ref: dev
     
     - name: image tag
       env:
